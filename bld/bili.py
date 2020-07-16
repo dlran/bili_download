@@ -36,13 +36,19 @@ def getPlayUrl(bvid, cid):
         print(content)
         raise e
 
-def download(bvid, threads=None, output=None, dest=None, force=False):
+def viewPlay(bvid):
     view_url = 'https://api.bilibili.com/x/web-interface/view?bvid=' + bvid
     with request.urlopen(__request(view_url)) as res:
         content = json.loads(res.read().decode("UTF-8"))
 
     cid = content['data']['pages'][0]['cid']
     title = content['data']['title']
+    print('title: %s' % title)
+    return cid
+
+def download(bvid, cid=None, threads=None, output=None, dest=None, force=False):
+    cid = cid or viewPlay(bvid)
+
     play_url = getPlayUrl(bvid, cid)
 
     opener = request.build_opener()
@@ -52,7 +58,7 @@ def download(bvid, threads=None, output=None, dest=None, force=False):
         ('Accept-Language', 'en-US,en;q=0.5'),
         ('Accept-Encoding', 'gzip, deflate, br'),
         # ('Range', 'bytes=0-'),
-        ('Referer', view_url),
+        ('Referer', 'https://api.bilibili.com'),
         ('Origin', 'https://www.bilibili.com'),
         ('Connection', 'keep-alive'),
     ]
