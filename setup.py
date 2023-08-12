@@ -22,7 +22,7 @@ setuptools.setup(
       'bld=bld.cli:main'
     ]
   },
-  install_requires=["ffd @ git+https://github.com/dlran/ffd.git/@master#egg=ffd-0.0.7"],
+  install_requires=["ffd @ git+https://github.com/dlran/ffd.git/@master"],
   classifiers=[
       'Programming Language :: Python :: 3 :: Only'
   ]
